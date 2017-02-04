@@ -5,30 +5,30 @@ import { createPost } from 'actions';
 import { Link, withRouter } from 'react-router';
 import cn from 'classnames';
 
-function renderField({ Tag = 'input', input, label, type, meta: { touched, error, warning, invalid } }) {
-    const rootClasses = cn({
-        'form-group': true,
-        'has-danger': touched && invalid
-    });
-
-    return (
-        <div className={rootClasses}>
-            <label>{label}</label>
-            <Tag {...input} className="form-control" type={type}/>
-            {
-                touched &&
-                ((error && <div className="text-help">{error}</div>) ||
-                (warning && <div className="text-help">{warning}</div>))
-            }
-        </div>
-    );
-};
-
 class PostNew extends Component {
     constructor(props) {
         super(props);
 
         this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    renderField({ Tag = 'input', input, label, type, meta: { touched, error, warning, invalid } }) {
+        const rootClasses = cn({
+            'form-group': true,
+            'has-danger': touched && invalid
+        });
+
+        return (
+            <div className={rootClasses}>
+                <label>{label}</label>
+                <Tag {...input} className="form-control" type={type} />
+                {
+                    touched &&
+                    ((error && <div className="text-help">{error}</div>) ||
+                    (warning && <div className="text-help">{warning}</div>))
+                }
+            </div>
+        );
     }
 
     onSubmit(data) {
@@ -45,9 +45,9 @@ class PostNew extends Component {
             <form className="add-post" onSubmit={handleSubmit(this.onSubmit)}>
                 <h3>Create A New Post</h3>
 
-                <Field name="title" type="text" component={renderField} label="Title" />
-                <Field name="categories" type="text" component={renderField} label="Categories" />
-                <Field name="content" Tag="textarea" component={renderField} label="Content" />
+                <Field name="title" type="text" component={this.renderField} label="Title" />
+                <Field name="categories" type="text" component={this.renderField} label="Categories" />
+                <Field name="content" Tag="textarea" component={this.renderField} label="Content" />
 
                 <button className="btn btn-primary" type="submit">Add</button>
                 <Link to="/" className="btn btn-danger">Back</Link>
